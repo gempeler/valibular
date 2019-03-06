@@ -31,8 +31,8 @@ var vokabeln = [
         en: "table"
     },
     {
-        de: "Katze",
-        en: "cat"
+        de: "Genie",
+        en: "Vali"
     },
     {
         de: "Hausaufgaben",
@@ -55,7 +55,7 @@ var dom_richtig=document.getElementById("richtig")
 var dom_continue_button=document.getElementById("continue")
 var dom_counter=document.getElementById("counter")
 var dom_punktzahl=document.getElementById("punktzahl")
-
+var dom_reload=document.getElementById("reload")
 
 
 /********************************* */
@@ -90,6 +90,9 @@ function counter_update() {
     dom_counter.innerHTML =(counter+1)+"/"+(vokabeln.length)
     
 }
+function reload_game(){
+
+}
 
 
 
@@ -101,12 +104,16 @@ function counter_update() {
 // Eventhandler für Klick auf Butto ok
 dom_button.addEventListener("click", function () {
 
+    dom_continue_button.style.display="inline"
+
     // Wert aus Eingabefeld in Variable eingabe schreiben
     var eingabe = dom_eingabe.value; 
     
     //richtig oder falsch HTML Element sichtbar machen
     dom_richtig_oder_falsch.style.display="block";
-    
+
+    dom_button.disabled= true
+
     // Ist die Eingabe richtig?
     if (eingabe === dasWort_en) {
         dom_richtig_oder_falsch.innerHTML = "richtig";
@@ -115,7 +122,7 @@ dom_button.addEventListener("click", function () {
         dom_richtig_oder_falsch.classList.remove("rot");
         punkte++;
         dom_punktzahl.innerHTML="erreichte Punktezahl: "+ punkte
-
+        
     }
     // Eingabe ist nicht richtig !
     else {
@@ -127,9 +134,33 @@ dom_button.addEventListener("click", function () {
 
         ;
     }
+    if(counter===9){
+        dom_reload.style.display="inline"
+        dom_continue_button.style.display="none"
+        dom_punktzahl.style.display="block"
+
+        }
 })
 
+dom_reload.addEventListener("click", function(){
+    punkte= 0;
+    dom_punktzahl.innerHTML="erreichte Punktezahl: "+0;
+    gemischtes_array = shuffle_array(vokabeln);
+    counter = 0;
+    wortpaar = hole_de_und_en();
+    dasWort_de = wortpaar.de;
+    dasWort_en = wortpaar.en;
+    dom_Deutsches_Wort.innerHTML = dasWort_de;
+    counter_update() ;
+    dom_continue_button.style.display="none"
+    dom_reload.style.display="none"
+    dom_button.disabled=false;
+    dom_richtig_oder_falsch.style.display  = "none";
+    dom_richtig.style.display  = "none";
+    dom_punktzahl.style.display="none"
+    dom_eingabe.value=""
 
+})
 
 dom_continue_button.addEventListener("click", function () {
     counter++ ; 
@@ -139,10 +170,17 @@ dom_continue_button.addEventListener("click", function () {
     dom_Deutsches_Wort.innerHTML = dasWort_de;
     dom_richtig_oder_falsch.style.display  = "none";
     dom_richtig.style.display  = "none";
+    dom_continue_button.style.display="none"
+    dom_button.disabled= false
 
-   counter_update() ;
-    if(counter===10){alert("training fertig")}
+
     dom_eingabe.value="" ;
+   counter_update() ;
+
+   console.log(counter)
+
+    
+
 })
 
 
@@ -155,3 +193,6 @@ var dasWort_de = wortpaar.de;
 var dasWort_en = wortpaar.en;
 dom_Deutsches_Wort.innerHTML = dasWort_de;
 counter_update() ;
+dom_continue_button.style.display="none"
+dom_reload.style.display="none"
+dom_punktzahl.style.display="none"
