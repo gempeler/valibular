@@ -3,8 +3,8 @@
 /********************************* */
 var vokabeln = [
     {
-        de: "Haus",
-        en: "house"
+        de: "Uhr",
+        en: "clock"
     },
     {
         de: "Katze",
