@@ -41,7 +41,7 @@ body{
     height: 30px;
     
  }
- div {color:rgb(171, 59, 143);
+ div {color:rgb(255, 255, 255);
     
     
 
@@ -55,7 +55,7 @@ body{
 #Deutsch{
     font-size: 22px;
     font-weight: bold;
-    color:rgb(171, 59, 143);
+    color:pink;
 }
 #punktzahl{
     font-size: 40px;
@@ -65,7 +65,12 @@ body{
 #reload{
     margin: 10px;
     background-color: pink;
-    width: 70px;
-    height: 30px;
+    width: 100px;
+    height: 40px;
     
+}
+#translate{
+    font-size: 19px;
+    font-weight: bold;
+    color:rgb(255, 255, 255);
 }

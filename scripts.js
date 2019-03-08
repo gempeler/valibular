@@ -1,7 +1,43 @@
+
+/********************************* *
+// Initialize Firebase
 /********************************* */
+
+// Initialize Firebase
+// TODO: Replace with your project's customized code snippet
+var config = {
+    apiKey: "AIzaSyBcqccsMRnBJBFWakYuYOlZhb_vZHihIxI",
+    authDomain: "valibular.firebaseapp.com",
+    databaseURL: "https://valibular.firebaseio.com",
+    projectId: "valibular",
+    storageBucket: "valibular.appspot.com",
+    messagingSenderId: "799254082572"
+};
+firebase.initializeApp(config);
+
+
+
+var ref = firebase.database().ref();
+
+
+var vokabeln = [];
+
+ref.on("value", function (snapshot) {
+    vokabeln = snapshot.val().Unit_1_headway;
+    console.log(vokabeln);
+    init();
+}, function (error) {
+    console.log("Error: " + error.code);
+});
+
+
+
+
+
+/********************************* *
 // Vokabeln
 /********************************* */
-var vokabeln = [
+/* var vokabeln = [
     {
         de: "Uhr",
         en: "clock"
@@ -41,7 +77,7 @@ var vokabeln = [
         de: "Schule",
         en: "school"
     }
-]
+] */
 
 /********************************* */
 // DOM Variabeln
@@ -78,7 +114,7 @@ function shuffle_array(vokabeln)
 
 
 
-function mach_zufall_zahl() { return Math.round(Math.random() * 9); }
+function mach_zufall_zahl() { return Math.round(Math.random() * vokabeln.length-1); }
 
 //console.log(mach_zufall_zahl())
 
@@ -96,13 +132,16 @@ function reload_game(){
 
 
 
+
 /********************************* */
 // Evenhandler
 /********************************* */
 
 
 // Eventhandler für Klick auf Butto ok
-dom_button.addEventListener("click", function () {
+dom_button.addEventListener("click", function (){ 
+    
+
 
     dom_continue_button.style.display="inline"
 
@@ -134,12 +173,13 @@ dom_button.addEventListener("click", function () {
 
         ;
     }
-    if(counter===9){
+    if(counter===vokabeln.length-1){
         dom_reload.style.display="inline"
         dom_continue_button.style.display="none"
         dom_punktzahl.style.display="block"
 
         }
+        
 })
 
 dom_reload.addEventListener("click", function(){
@@ -177,22 +217,39 @@ dom_continue_button.addEventListener("click", function () {
     dom_eingabe.value="" ;
    counter_update() ;
 
-   console.log(counter)
-
+   dom_eingabe.focus()
+})
     
 
-})
+
+dom_eingabe.addEventListener("keyup",function()
+{
+  
 
 
-var punkte= 0;
-dom_punktzahl.innerHTML="erreichte Punktezahl: "+0;
-var gemischtes_array = shuffle_array(vokabeln);
-var counter = 0;
-var wortpaar = hole_de_und_en();
-var dasWort_de = wortpaar.de;
-var dasWort_en = wortpaar.en;
+   { if(event.keyCode===13 && dom_eingabe.value!=""){dom_button.click()}
+    dom_continue_button.focus() 
+    
+}})
+dom_continue_button.addEventListener("keyup",function()
+{if(event.keyCode===13){dom_continue_button.click()}}
+)
+
+
+
+function init() {
+ punkte= 0;
+dom_punktzahl.innerHTML="erreichte Punktezahl: "+0+"/"+(vokabeln.length);
+ gemischtes_array = shuffle_array(vokabeln);
+ counter = 0;
+ wortpaar = hole_de_und_en();
+ dasWort_de = wortpaar.de;
+ dasWort_en = wortpaar.en;
 dom_Deutsches_Wort.innerHTML = dasWort_de;
 counter_update() ;
 dom_continue_button.style.display="none"
 dom_reload.style.display="none"
 dom_punktzahl.style.display="none"
+dom_eingabe.focus()
+}
+
